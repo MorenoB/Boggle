@@ -1,4 +1,6 @@
-﻿function init() {
+﻿var canSelectButtons = false;
+
+function init() {
     var that = this;
     initializeBoard();
 
@@ -7,6 +9,10 @@
 }
 
 function onButtonClicked(buttonObj) {
+
+    if (!canSelectButtons)
+        return;
+
     var id = buttonObj.data("id");
     var text = buttonObj.data("text");
     var isSelected = buttonObj.data("isSelected");
@@ -57,6 +63,8 @@ function resetButtons() {
 
     $("#wordDisplay").data("wordData", "");
     updateWordHeader("");
+
+    canSelectButtons = false;
 }
 
 
@@ -137,10 +145,27 @@ function initializeBoard() {
 
     $(".col.s6").on('click', 'div', function () {
 
+        if (canSelectButtons)
+        {
+            checkWord();
+            return;
+        }
+
+
+        canSelectButtons = true;
+
         var obj = $(this);
         onButtonClicked(obj);
+
     });
 
+}
+
+function checkWord()
+{
+
+    resetButtons();
+    
 }
 
 function initializeDefaults() {
