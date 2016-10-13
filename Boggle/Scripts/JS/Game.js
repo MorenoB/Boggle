@@ -1,6 +1,9 @@
 ﻿function init() {
     var that = this;
     initializeBoard();
+
+    initializeDefaults();
+
 }
 
 function onButtonClicked(buttonObj) {
@@ -14,12 +17,28 @@ function onButtonClicked(buttonObj) {
         return;
     }
 
+    //Button will be selected.
     buttonObj.data("isSelected", true);
 
     buttonObj.removeClass("blue");
     buttonObj.addClass("red");
 
+    //Update visual word & store the letter.
+    updateWordHeader(text);
+
     console.log(id + " has letter " + text);
+}
+
+function updateWordHeader(addedLetter) {
+    var wordHeader = $("#wordDisplay");
+    var curWord = wordHeader.data("wordData");
+    var newWord = curWord + addedLetter;
+    wordHeader.data("wordData", newWord);
+
+    if (newWord.length < 1)
+        newWord = "Boggle";
+
+    wordHeader.text(newWord);
 }
 
 function resetButtons() {
@@ -35,6 +54,9 @@ function resetButtons() {
             buttonObj.data("isSelected", false);
         }
     });
+
+    $("#wordDisplay").data("wordData", "");
+    updateWordHeader("");
 }
 
 
@@ -119,6 +141,10 @@ function initializeBoard() {
         onButtonClicked(obj);
     });
 
+}
+
+function initializeDefaults() {
+    $("#wordDisplay").data("wordData", "");
 }
 
 
