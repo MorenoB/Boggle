@@ -150,8 +150,6 @@ function initializeBoard() {
 
             $row.append($button);
 
-            //console.log($button);
-
             buttonIndex++;
         }
 
@@ -191,6 +189,10 @@ function isValidWord(wordToValidate)
 {
     console.log("Checking for word " + wordToValidate);
 
+    //Only allow words > 3
+    if (wordToValidate.length < 3)
+        return false;
+
     if ($.inArray(wordToValidate, wordsArray) > -1)
         return true;
 
@@ -201,8 +203,31 @@ function addPointsForWord(wordToAnalyze)
 {
     Materialize.toast("'" + wordToAnalyze + "' correct!", 3000, 'rounded');
 
-    var amountOfPoints = 100;
+    var amountOfPoints = 0;
 
+    switch (wordToAnalyze.length)
+    {
+        case 3:
+        case 4:
+            amountOfPoints = 1;
+            break;
+
+        case 5:
+            amountOfPoints = 2;
+            break;
+
+        case 6:
+            amountOfPoints = 3;
+            break;
+
+        case 7:
+            amountOfPoints = 5;
+            break;
+
+        default:
+            amountOfPoints = 11;
+            break;
+    }
 
     var wordToShow = wordToAnalyze.toUpperCase() + " (" + amountOfPoints + ")";
 
