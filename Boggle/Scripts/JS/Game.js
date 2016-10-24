@@ -130,7 +130,8 @@ function initializeBoard() {
     for (var i = 0; i < rows; i++) {
 
         var $row = $("<div />", {
-            class: 'col s6'
+            class: 'col',
+            id: 'buttonRow'
         });
 
         var diceRow = shuffledDice[i];
@@ -138,6 +139,7 @@ function initializeBoard() {
             var buttonText = diceRow[j];
             var $button = $("<div />", {
                 class: 'btn-floating btn-large waves-effect waves-light blue',
+                id: 'letterButton',
                 text: "" + buttonText
             });
 
@@ -156,13 +158,13 @@ function initializeBoard() {
         $("#boggleArea").append($row);
     }
 
-    $(".col.s6").on('mouseover', 'div', function () {
+    $("#boggleArea").on('mouseover', '#letterButton', function () {
 
         var obj = $(this);
         onButtonClicked(obj);
     });
 
-    $(".col.s6").on('click', 'div', function () {
+    $("#boggleArea").on('click', '#letterButton', function () {
 
         if (canSelectButtons)
         {
@@ -197,7 +199,16 @@ function isValidWord(wordToValidate)
 
 function addPointsForWord(wordToAnalyze)
 {
+    Materialize.toast("'" + wordToAnalyze + "' correct!", 3000, 'rounded');
 
+    var amountOfPoints = 100;
+
+
+    var wordToShow = wordToAnalyze.toUpperCase() + " (" + amountOfPoints + ")";
+
+    var appendedWord = '<a href="#" class="collection-item">' + wordToShow + '</a>';
+
+    $("#wordList").append(appendedWord);
 }
 
 function initializeDefaults() {
