@@ -23,7 +23,6 @@ function onButtonClicked(buttonObj) {
 
     if (isSelected) {
         console.log("Button " + text + " is already selected");
-        resetButtons();
         return;
     }
 
@@ -201,8 +200,6 @@ function isValidWord(wordToValidate)
 
 function addPointsForWord(wordToAnalyze)
 {
-    Materialize.toast("'" + wordToAnalyze + "' correct!", 3000, 'rounded');
-
     var amountOfPoints = 0;
 
     switch (wordToAnalyze.length)
@@ -234,6 +231,10 @@ function addPointsForWord(wordToAnalyze)
     var appendedWord = '<a href="#" class="collection-item">' + wordToShow + '</a>';
 
     $("#wordList").append(appendedWord);
+
+    var suffix = amountOfPoints == 1 ? "point" : "points";
+
+    Materialize.toast("'" + wordToAnalyze + "' awarded " + amountOfPoints + " " + suffix + "!", 3000, 'rounded');
 }
 
 function initializeDefaults() {
