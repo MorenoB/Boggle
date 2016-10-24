@@ -1,7 +1,11 @@
 ﻿var canSelectButtons = false;
+var wordsArray;
 
 function init() {
     var that = this;
+
+    initializeWords();
+
     initializeBoard();
 
     initializeDefaults();
@@ -33,6 +37,21 @@ function onButtonClicked(buttonObj) {
     updateWordHeader(text);
 
     console.log(id + " has letter " + text);
+}
+
+function initializeWords()
+{
+    $.ajax({
+        url: "words.txt",
+        dataType: "text",
+        success: function (data) {
+
+            var splittedData = data.split('\n');
+            console.log(splittedData);
+
+            wordsArray = splittedData;
+        }
+    });
 }
 
 function updateWordHeader(addedLetter) {
@@ -147,7 +166,12 @@ function initializeBoard() {
 
         if (canSelectButtons)
         {
-            checkWord();
+            var currentWord = $("#wordDisplay").data("wordData").toLowerCase();
+
+            if (isValidWord(currentWord))
+                addPointsForWord(currentWord);
+
+            resetButtons();
             return;
         }
 
@@ -161,11 +185,19 @@ function initializeBoard() {
 
 }
 
-function checkWord()
+function isValidWord(wordToValidate)
+{
+    console.log("Checking for word " + wordToValidate);
+
+    if ($.inArray(wordToValidate, wordsArray) > -1)
+        return true;
+
+    return false;    
+}
+
+function addPointsForWord(wordToAnalyze)
 {
 
-    resetButtons();
-    
 }
 
 function initializeDefaults() {

@@ -132,6 +132,7 @@
     <Content Include="content\materialize\fonts\roboto\Roboto-Bold.woff" />
     <Content Include="content\materialize\fonts\roboto\Roboto-Bold.ttf" />
     <Content Include="content\materialize\fonts\roboto\Roboto-Bold.eot" />
+    <Content Include="words.txt" />
     <None Include="Scripts\Libraries\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\JS\Game.js" />
     <Content Include="Scripts\Libraries\jquery-3.1.1.js" />
