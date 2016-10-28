@@ -46,7 +46,6 @@ function initializeWords()
         success: function (data) {
 
             var splittedData = data.split('\n');
-            console.log(splittedData);
 
             wordsArray = splittedData;
         }
@@ -153,6 +152,8 @@ function initializeBoard() {
         }
 
         $("#boggleArea").append($row);
+
+        
     }
 
     $("#boggleArea").on('mouseover', '#letterButton', function () {
@@ -237,8 +238,54 @@ function addPointsForWord(wordToAnalyze)
     Materialize.toast("'" + wordToAnalyze + "' awarded " + amountOfPoints + " " + suffix + "!", 3000, 'rounded');
 }
 
+function setProgressbarValue(newValue)
+{
+    $("#progressbar").progressbar({
+        value: newValue
+    });
+}
+
+function timeIsUp()
+{
+    $('#timeLeft').text("Done!");
+}
+
+function startTimerUpdate()
+{
+    var start = new Date;
+    var totalSeconds = 5;
+
+    var timerInterval = setInterval(function () {
+        var secondsPassed = (new Date - start) / 1000;            
+
+        var percentage = (100 * secondsPassed) / totalSeconds;
+
+        var secondsLeft = Math.round(totalSeconds - secondsPassed);
+
+        if (secondsPassed > totalSeconds) {
+            timeIsUp();
+
+            clearInterval(timerInterval);
+
+            return;
+        }
+
+        setProgressbarValue(percentage);
+
+        if (secondsLeft == 0) return;
+
+        var suffix = secondsLeft < 2 ? "second" : "seconds";
+
+        $('#timeLeft').text("Only " + secondsLeft + " " + suffix + " left!");
+    }, 1);
+}
+
 function initializeDefaults() {
     $("#wordDisplay").data("wordData", "");
+
+    setProgressbarValue(0);
+
+    startTimerUpdate();
 }
 
 

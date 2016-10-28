@@ -6,6 +6,7 @@
 
     <!--Import materialize.css-->
     <link type="text/css" rel="stylesheet" href="content/materialize/css/materialize.min.css" media="screen,projection" />
+    <link href="css/jquery-ui.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
 
@@ -28,9 +29,9 @@
         </div>
     </div>
     <div class="row">
-        <div class="col s3  push-s3">
+        <div id="middleComponent" class="col s3  push-s3">
                 <div class="container" id="boggleArea">
-
+                    
                 </div>
         </div>
 
@@ -40,6 +41,10 @@
             </div>
         </div>
     </div>
+
+    <div class="col" id="progressbar"></div>
+    <div class="col" id="timeLeft"></div>
+
         <footer class="page-footer orange">
             <div class="container">
                 <div class="row">
@@ -60,6 +65,8 @@
         <script src="Scripts/Libraries/jquery-3.1.1.min.js"></script>
         <script src="Scripts/Libraries/materialize/materialize.min.js"></script>
         <script src="Scripts/Libraries/lodash.min.js"></script>
+        <script src="Scripts/Libraries/jquery-ui.min.js"></script>
         <script src="Scripts/JS/Game.js"></script>
+        
 </body>
 </html>
