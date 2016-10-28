@@ -2,7 +2,8 @@
 var wordsArray;
 
 function init() {
-    var that = this;
+
+    initializePopups();
 
     initializeWords();
 
@@ -50,6 +51,14 @@ function initializeWords()
             wordsArray = splittedData;
         }
     });
+}
+
+function restartGame()
+{
+    $("#wordList").empty();
+
+
+    initializeBoard();
 }
 
 function updateWordHeader(addedLetter) {
@@ -125,6 +134,8 @@ function initializeBoard() {
     var columns = 4;
     var buttonIndex = 0;
 
+    $("#boggleArea").empty();
+
     for (var i = 0; i < rows; i++) {
 
         var $row = $("<div />", {
@@ -183,6 +194,20 @@ function initializeBoard() {
 
     });
 
+}
+
+function initializePopups()
+{
+    $('#welcomePopup').openModal();
+
+    $('#startButton').click(function() {
+        startTimerUpdate();
+    });
+
+    $('#restartButton').click(function () {
+        initializeBoard();
+        startTimerUpdate();
+    });
 }
 
 function isValidWord(wordToValidate)
@@ -248,6 +273,8 @@ function setProgressbarValue(newValue)
 function timeIsUp()
 {
     $('#timeLeft').text("Done!");
+
+    $('#matchComplete').openModal();
 }
 
 function startTimerUpdate()
@@ -260,8 +287,6 @@ function startTimerUpdate()
 
         var percentage = (100 * secondsPassed) / totalSeconds;
 
-        var secondsLeft = Math.round(totalSeconds - secondsPassed);
-
         if (secondsPassed > totalSeconds) {
             timeIsUp();
 
@@ -271,6 +296,8 @@ function startTimerUpdate()
         }
 
         setProgressbarValue(percentage);
+
+        var secondsLeft = Math.round(totalSeconds - secondsPassed);
 
         if (secondsLeft == 0) return;
 
@@ -284,8 +311,6 @@ function initializeDefaults() {
     $("#wordDisplay").data("wordData", "");
 
     setProgressbarValue(0);
-
-    startTimerUpdate();
 }
 
 
