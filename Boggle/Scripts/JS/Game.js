@@ -1,6 +1,8 @@
 ﻿var canSelectButtons = false;
 var wordsArray;
 
+var wordListDOM = $("#wordList");
+
 function init() {
 
     initializePopups();
@@ -213,10 +215,18 @@ function initializePopups()
 function isValidWord(wordToValidate)
 {
     console.log("Checking for word " + wordToValidate);
+    var savedWordsArray = wordListDOM.data("savedWords");
 
     //Only allow words > 3
     if (wordToValidate.length < 3)
         return false;
+
+    if ($.inArray(wordToValidate, savedWordsArray) > -1)
+    {
+        var nicerWord = wordToValidate.toUpperCase();
+        Materialize.toast("'" + nicerWord + "' is already used!", 3000, 'rounded');
+        return false;
+    }
 
     if ($.inArray(wordToValidate, wordsArray) > -1)
         return true;
@@ -254,9 +264,21 @@ function addPointsForWord(wordToAnalyze)
 
     var wordToShow = wordToAnalyze.toUpperCase() + " (" + amountOfPoints + ")";
 
+    //Add the word to the DOM word list
+
     var appendedWord = '<a href="#" class="collection-item">' + wordToShow + '</a>';
 
-    $("#wordList").append(appendedWord);
+    wordListDOM.append(appendedWord);
+
+    //Save the word in the 'savedWords' data object inside the wordlist DOM object.
+
+    var wordListDataArray = wordListDOM.data("savedWords");
+
+    wordListDataArray.push(wordToAnalyze);
+
+    wordListDOM.data("savedWords", wordListDataArray);
+
+    //Display a popup for the user.
 
     var suffix = amountOfPoints == 1 ? "point" : "points";
 
@@ -309,6 +331,8 @@ function startTimerUpdate()
 
 function initializeDefaults() {
     $("#wordDisplay").data("wordData", "");
+
+    wordListDOM.data("savedWords", []);
 
     setProgressbarValue(0);
 }
