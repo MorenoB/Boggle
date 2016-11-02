@@ -62,6 +62,7 @@ function restartGame()
 
     initializeBoard();
 
+    initializeDefaults();
 }
 
 function updateWordHeader(addedLetter) {
