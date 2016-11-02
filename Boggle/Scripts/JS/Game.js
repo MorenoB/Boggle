@@ -2,6 +2,7 @@
 var wordsArray;
 
 var wordListDOM = $("#wordList");
+var pointsDOM = $("#points");
 
 function init() {
 
@@ -59,8 +60,8 @@ function restartGame()
 {
     $("#wordList").empty();
 
-
     initializeBoard();
+
 }
 
 function updateWordHeader(addedLetter) {
@@ -278,6 +279,16 @@ function addPointsForWord(wordToAnalyze)
 
     wordListDOM.data("savedWords", wordListDataArray);
 
+    //Handle the total points counter.
+
+    var newPoints = pointsDOM.data("totalPoints");
+
+    newPoints++;
+
+    pointsDOM.text("Points : " + newPoints);
+
+    pointsDOM.data("totalPoints", newPoints);
+
     //Display a popup for the user.
 
     var suffix = amountOfPoints == 1 ? "point" : "points";
@@ -333,6 +344,8 @@ function initializeDefaults() {
     $("#wordDisplay").data("wordData", "");
 
     wordListDOM.data("savedWords", []);
+
+    pointsDOM.data("totalPoints", 0);
 
     setProgressbarValue(0);
 }
