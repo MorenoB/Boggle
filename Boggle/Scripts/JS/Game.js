@@ -326,7 +326,7 @@ function startTimerUpdate()
         var suffix = secondsLeft < 2 ? "second" : "seconds";
 
         $('#timeLeft').text("Only " + secondsLeft + " " + suffix + " left!");
-    }, 1);
+    }, 250);
 }
 
 function initializeDefaults() {
