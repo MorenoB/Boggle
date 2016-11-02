@@ -280,7 +280,7 @@ function timeIsUp()
 function startTimerUpdate()
 {
     var start = new Date;
-    var totalSeconds = 5;
+    var totalSeconds = 180;
 
     var timerInterval = setInterval(function () {
         var secondsPassed = (new Date - start) / 1000;            
