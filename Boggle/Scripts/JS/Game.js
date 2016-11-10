@@ -58,7 +58,11 @@ function initializeWords()
 
 function restartGame()
 {
-    $("#wordList").empty();
+    resetButtons();
+
+    $("#boggleArea").off();
+
+    wordListDOM.empty();
 
     initializeBoard();
 
@@ -209,7 +213,7 @@ function initializePopups()
     });
 
     $('#restartButton').click(function () {
-        initializeBoard();
+        restartGame();
         startTimerUpdate();
     });
 }
@@ -292,7 +296,7 @@ function addPointsForWord(wordToAnalyze)
 
     //Display a popup for the user.
 
-    var suffix = amountOfPoints == 1 ? "point" : "points";
+    var suffix = amountOfPoints === 1 ? "point" : "points";
 
     Materialize.toast("'" + wordToAnalyze + "' awarded " + amountOfPoints + " " + suffix + "!", 3000, 'rounded');
 }
@@ -333,7 +337,7 @@ function startTimerUpdate()
 
         var secondsLeft = Math.round(totalSeconds - secondsPassed);
 
-        if (secondsLeft == 0) return;
+        if (secondsLeft === 0) return;
 
         var suffix = secondsLeft < 2 ? "second" : "seconds";
 
@@ -347,6 +351,8 @@ function initializeDefaults() {
     wordListDOM.data("savedWords", []);
 
     pointsDOM.data("totalPoints", 0);
+
+    pointsDOM.text("Points : 0")
 
     setProgressbarValue(0);
 }
