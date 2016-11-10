@@ -2,12 +2,97 @@
 <html>
 <head>
     <title>Boggle</title>
-	<meta charset="utf-8" />
+    <meta charset="utf-8" />
+
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="content/materialize/css/materialize.min.css" media="screen,projection" />
+    <link href="css/jquery-ui.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 </head>
 <body>
-    <script src="Scripts/Libraries/jquery-3.1.1.min.js"></script>
-    <script src="Scripts/JS/Game.js"></script>
 
-    <h1>WIP</h1>
+    <nav class="light-blue lighten-1" role="navigation">
+        <div class="nav-wrapper container">
+            <a id="logo-container" href="#" class="brand-logo">Logo</a>
+        </div>
+    </nav>
+    <div class="section no-pad-bot" id="index-banner">
+        <div class="container">
+            <br><br>
+            <h1 id ="wordDisplay" class="header center orange-text">Boggle</h1>
+            <h5 id="points" class="center deep-orange-text">Points : 0</h5>
+            <br><br>
+
+        </div>
+    </div>
+    <div class="row">
+        <div id="middleComponent" class="col s3  push-s3">
+                <div class="container" id="boggleArea">
+                    
+                </div>
+        </div>
+
+        <div class="col s4 push-s3">
+            <div class="collection" id="wordList">
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col" id="progressbar"></div>
+    <div class="col" id="timeLeft"></div>
+
+        <footer class="page-footer orange">
+            <div class="container">
+                <div class="row">
+                    <div class="col l6 s12">
+                        <h5 class="white-text">Boggle</h5>
+                        <p class="grey-text text-lighten-4">The original, traditional gameboard. A four-by-four square of letters, with two minutes to find as many words as possible. Each word must have at least three letters. </p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <div class="container">
+                    Made by <a class="orange-text text-lighten-3" href="https://github.com/MorenoB">Moreno Bralts</a>
+                </div>
+            </div>
+        </footer>
+
+
+    <!-- Modal Structures -->
+    <div id="welcomePopup" class="modal">
+        <div class="modal-content">
+            <h4>Rules</h4>
+            <p>The game begins by shaking a covered tray of 16 cubic dice, each with a different letter printed on each of its sides. The dice settle into a 4×4 tray so that only the top letter of each cube is visible. After they have settled into the grid, a three-minute sand timer is started and all players simultaneously begin the main phase of play.
+
+Each player searches for words that can be constructed from the letters of sequentially adjacent cubes, where "adjacent" cubes are those horizontally, vertically, and diagonally neighboring. Words must be at least three letters long, may include singular and plural (or other derived forms) separately, but may not use the same letter cube more than once per word. Each player records all the words he or she finds by writing on a private sheet of paper. After three minutes have elapsed, all players must immediately stop writing and the game enters the scoring phase.
+
+In the scoring phase, each player reads off his or her list of discovered words. If two or more players wrote the same word, it is removed from all players' lists. Any player may challenge the validity of a word, in which case a previously nominated dictionary is used to verify or refute it. For all words remaining after duplicates have been eliminated, points are awarded based on the length of the word. The winner is the player whose point total is highest, with any ties typically broken by count of long words.</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" id="startButton" class="modal-action modal-close waves-effect waves-green btn-flat">Start!</a>
+        </div>
+    </div>
+
+    <div id="matchComplete" class="modal">
+        <div class="modal-content">
+            <h4>Game Over!</h4>
+            <p id="yourPoints"></p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" id="restartButton" class="modal-action modal-close waves-effect waves-green btn-flat">Restart!</a>
+        </div>
+    </div>
+
+        <script src="Scripts/Libraries/jquery-3.1.1.min.js"></script>
+        <script src="Scripts/Libraries/materialize/materialize.min.js"></script>
+        <script src="Scripts/Libraries/lodash.min.js"></script>
+        <script src="Scripts/Libraries/jquery-ui.min.js"></script>
+        <script src="Scripts/JS/Game.js"></script>
+        
 </body>
 </html>
