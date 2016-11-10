@@ -11,6 +11,7 @@ namespace BoggleWebService.Controllers
     public class BoggleController : ApiController
     {
         private Random randomObj = new Random();
+        private List<BoggleBox> registeredBoggleBoxes = new List<BoggleBox>();
 
         [HttpGet]
         [Route("api/boggle/getBoggleBox")]
@@ -20,7 +21,23 @@ namespace BoggleWebService.Controllers
             newBox.BoggleBoxID = Guid.NewGuid();
             newBox.Dies = randomDices();
 
+            //byte[] guidArray = newBox.BoggleBoxID.ToByteArray();
+
+            registeredBoggleBoxes.Add(newBox);
             return newBox;
+        }
+
+        [HttpGet]
+        [Route("api/boggle/getBoggleBox")]
+        public BoggleBox GetBoggleBox(string boggleBoxId)
+        {
+            BoggleBox foundBox = registeredBoggleBoxes.Find(x => x.BoggleBoxID.ToString() == boggleBoxId);
+
+            if (foundBox != null)
+                return foundBox;
+
+            //If unable to find box, generate a new one.
+            return GetBoggleBox();
         }
 
 
