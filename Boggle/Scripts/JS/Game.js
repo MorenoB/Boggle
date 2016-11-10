@@ -4,6 +4,8 @@ var wordsArray;
 var wordListDOM = $("#wordList");
 var pointsDOM = $("#points");
 
+var lastSelectedButtonId = -1;
+
 function init() {
 
     initializePopups();
@@ -30,6 +32,14 @@ function onButtonClicked(buttonObj) {
         return;
     }
 
+    if (!selectedButtonIsInRange(id))
+    {
+        console.log("Button " + text + " is not in range. Id : " + id + " lastselected id : " + lastSelectedButtonId);
+        return;
+    }
+
+    lastSelectedButtonId = id;
+
     //Button will be selected.
     buttonObj.data("isSelected", true);
 
@@ -40,6 +50,43 @@ function onButtonClicked(buttonObj) {
     updateWordHeader(text);
 
     console.log(id + " has letter " + text);
+}
+
+function selectedButtonIsInRange(selectedButtonId)
+{
+    if (selectedButtonId == lastSelectedButtonId || lastSelectedButtonId == -1)
+        return true;
+
+    //Left
+    if (selectedButtonId == lastSelectedButtonId - 1)
+        return true;
+    //Right
+    if (selectedButtonId == lastSelectedButtonId + 1)
+        return true;
+    //Up
+    if (selectedButtonId == lastSelectedButtonId - 4)
+        return true;
+    //Down
+    if (selectedButtonId == lastSelectedButtonId + 4)
+        return true;
+
+    //Diagonal bottom right
+    if (selectedButtonId == lastSelectedButtonId + 5)
+        return true;
+
+    //Diagonal Upper left
+    if (selectedButtonId == lastSelectedButtonId - 5)
+        return true;
+
+    //Diagonal bottom left
+    if (selectedButtonId == lastSelectedButtonId + 3)
+        return true;
+
+    //Diagonal Upper right
+    if (selectedButtonId == lastSelectedButtonId - 3)
+        return true;
+
+    return false;
 }
 
 function initializeWords()
@@ -99,6 +146,9 @@ function resetButtons() {
     updateWordHeader("");
 
     canSelectButtons = false;
+
+
+    lastSelectedButtonId = -1;
 }
 
 
