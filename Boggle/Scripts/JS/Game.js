@@ -10,7 +10,7 @@ function init() {
 
     initializePopups();
 
-    connectToWebService();
+    getAndPopulateBoardData();
 
     initializeDefaults();
 }
@@ -48,10 +48,10 @@ function onButtonClicked(buttonObj) {
     console.log(id + " has letter " + text);
 }
 
-function connectToWebService()
+function getAndPopulateBoardData()
 {
 
-    //Retrieving bottle box data.
+    //Retrieving boggle box data.
     $.ajax({
         url: "http://internettoepassingen.jorislops.nl/api/boggle/getbogglebox",
         type: 'GET',
