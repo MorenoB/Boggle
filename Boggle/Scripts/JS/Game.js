@@ -12,10 +12,9 @@ function init() {
 
     initializeWords();
 
-    initializeBoard();
+    connectToWebService();
 
     initializeDefaults();
-
 }
 
 function onButtonClicked(buttonObj) {
@@ -32,8 +31,7 @@ function onButtonClicked(buttonObj) {
         return;
     }
 
-    if (!selectedButtonIsInRange(id))
-    {
+    if (!selectedButtonIsInRange(id)) {
         console.log("Button " + text + " is not in range. Id : " + id + " lastselected id : " + lastSelectedButtonId);
         return;
     }
@@ -52,8 +50,26 @@ function onButtonClicked(buttonObj) {
     console.log(id + " has letter " + text);
 }
 
-function selectedButtonIsInRange(selectedButtonId)
-{
+function connectToWebService() {
+
+    //Retrieving bottle box data.
+    $.ajax({
+        url: "http://internettoepassingen.jorislops.nl/api/boggle/getbogglebox",
+        type: 'GET',
+        contentType: "application/json",
+        dataType: 'jsonp'
+    }).done(function (data, textStatus, jqXHR) {
+        var boardData = data;
+        initializeBoard(boardData);
+
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        console.log("Error: " + textStatus + "\t" + errorThrown.toString());
+    });
+
+
+}
+
+function selectedButtonIsInRange(selectedButtonId) {
     if (selectedButtonId == lastSelectedButtonId || lastSelectedButtonId == -1)
         return true;
 
@@ -89,8 +105,7 @@ function selectedButtonIsInRange(selectedButtonId)
     return false;
 }
 
-function initializeWords()
-{
+function initializeWords() {
     $.ajax({
         url: "words.txt",
         dataType: "text",
@@ -103,15 +118,14 @@ function initializeWords()
     });
 }
 
-function restartGame()
-{
+function restartGame() {
     resetButtons();
 
     $("#boggleArea").off();
 
     wordListDOM.empty();
 
-    initializeBoard();
+    connectToWebService();
 
     initializeDefaults();
 }
@@ -152,47 +166,16 @@ function resetButtons() {
 }
 
 
-function initializeBoard() {
-    var dice = [
+function initializeBoard(boardData) {
 
-        ['R', 'I', 'F', 'O', 'B', 'X'],
-
-        ['I', 'F', 'E', 'H', 'E', 'Y'],
-
-        ['D', 'E', 'N', 'O', 'W', 'S'],
-
-        ['U', 'T', 'O', 'K', 'N', 'D'],
-
-        ['H', 'M', 'S', 'R', 'A', 'O'],
-
-        ['L', 'U', 'P', 'E', 'T', 'S'],
-
-        ['A', 'C', 'I', 'T', 'O', 'A'],
-
-        ['Y', 'L', 'G', 'K', 'U', 'E'],
-
-        ['Q', 'B', 'M', 'J', 'O', 'A'],
-
-        ['E', 'H', 'I', 'S', 'P', 'N'],
-
-        ['V', 'E', 'T', 'I', 'G', 'N'],
-
-        ['B', 'A', 'L', 'I', 'Y', 'T'],
-
-        ['E', 'Z', 'A', 'V', 'N', 'D'],
-
-        ['R', 'A', 'L', 'E', 'S', 'C'],
-
-        ['U', 'W', 'I', 'L', 'R', 'G'],
-
-        ['P', 'A', 'C', 'E', 'M', 'D']];
-
-    var shuffledDice = _.slice(_.shuffle(dice), 0, 4);
+    var dice = boardData.dies;
     var rows = 4;
     var columns = 4;
     var buttonIndex = 0;
 
     $("#boggleArea").empty();
+
+    $("#boggleArea").data("boardID", boardData.boggleBoxID);
 
     for (var i = 0; i < rows; i++) {
 
@@ -201,9 +184,9 @@ function initializeBoard() {
             id: 'buttonRow'
         });
 
-        var diceRow = shuffledDice[i];
+        var diceRow = dice[i];
         for (var j = 0; j < columns; j++) {
-            var buttonText = diceRow[j];
+            var buttonText = diceRow[j].value;
             var $button = $("<div />", {
                 class: 'btn-floating btn-large waves-effect waves-light blue',
                 id: 'letterButton',
@@ -222,7 +205,7 @@ function initializeBoard() {
 
         $("#boggleArea").append($row);
 
-        
+
     }
 
     $("#boggleArea").on('mouseover', '#letterButton', function () {
@@ -233,8 +216,7 @@ function initializeBoard() {
 
     $("#boggleArea").on('click', '#letterButton', function () {
 
-        if (canSelectButtons)
-        {
+        if (canSelectButtons) {
             var currentWord = $("#wordDisplay").data("wordData").toLowerCase();
 
             if (isValidWord(currentWord))
@@ -254,11 +236,10 @@ function initializeBoard() {
 
 }
 
-function initializePopups()
-{
+function initializePopups() {
     $('#welcomePopup').openModal();
 
-    $('#startButton').click(function() {
+    $('#startButton').click(function () {
         startTimerUpdate();
     });
 
@@ -268,8 +249,7 @@ function initializePopups()
     });
 }
 
-function isValidWord(wordToValidate)
-{
+function isValidWord(wordToValidate) {
     console.log("Checking for word " + wordToValidate);
     var savedWordsArray = wordListDOM.data("savedWords");
 
@@ -277,8 +257,7 @@ function isValidWord(wordToValidate)
     if (wordToValidate.length < 3)
         return false;
 
-    if ($.inArray(wordToValidate, savedWordsArray) > -1)
-    {
+    if ($.inArray(wordToValidate, savedWordsArray) > -1) {
         var nicerWord = wordToValidate.toUpperCase();
         Materialize.toast("'" + nicerWord + "' is already used!", 3000, 'rounded');
         return false;
@@ -287,15 +266,13 @@ function isValidWord(wordToValidate)
     if ($.inArray(wordToValidate, wordsArray) > -1)
         return true;
 
-    return false;    
+    return false;
 }
 
-function addPointsForWord(wordToAnalyze)
-{
+function addPointsForWord(wordToAnalyze) {
     var amountOfPoints = 0;
 
-    switch (wordToAnalyze.length)
-    {
+    switch (wordToAnalyze.length) {
         case 3:
         case 4:
             amountOfPoints = 1;
@@ -351,15 +328,13 @@ function addPointsForWord(wordToAnalyze)
     Materialize.toast("'" + wordToAnalyze + "' awarded " + amountOfPoints + " " + suffix + "!", 3000, 'rounded');
 }
 
-function setProgressbarValue(newValue)
-{
+function setProgressbarValue(newValue) {
     $("#progressbar").progressbar({
         value: newValue
     });
 }
 
-function timeIsUp()
-{
+function timeIsUp() {
     $('#timeLeft').text("Done!");
 
     $('#yourPoints').text("Your points : " + pointsDOM.data("totalPoints"));
@@ -367,13 +342,12 @@ function timeIsUp()
     $('#matchComplete').openModal();
 }
 
-function startTimerUpdate()
-{
+function startTimerUpdate() {
     var start = new Date;
     var totalSeconds = 180;
 
     var timerInterval = setInterval(function () {
-        var secondsPassed = (new Date - start) / 1000;            
+        var secondsPassed = (new Date - start) / 1000;
 
         var percentage = (100 * secondsPassed) / totalSeconds;
 
