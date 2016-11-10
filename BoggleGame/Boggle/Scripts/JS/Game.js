@@ -53,7 +53,7 @@ function getAndPopulateBoardData()
 
     //Retrieving boggle box data.
     $.ajax({
-        url: "http://internettoepassingen.jorislops.nl/api/boggle/getbogglebox",
+        url: "http://localhost:52213/api/boggle/getBoggleBox",
         type: 'GET',
         contentType: "application/json",
         dataType: 'jsonp'
