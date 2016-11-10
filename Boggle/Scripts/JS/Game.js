@@ -1,5 +1,4 @@
 ﻿var canSelectButtons = false;
-var wordsArray;
 
 var wordListDOM = $("#wordList");
 var pointsDOM = $("#points");
@@ -10,8 +9,6 @@ var lastSelectedButtonId = -1;
 function init() {
 
     initializePopups();
-
-    initializeWords();
 
     connectToWebService();
 
@@ -105,19 +102,6 @@ function selectedButtonIsInRange(selectedButtonId) {
         return true;
 
     return false;
-}
-
-function initializeWords() {
-    $.ajax({
-        url: "words.txt",
-        dataType: "text",
-        success: function (data) {
-
-            var splittedData = data.split('\n');
-
-            wordsArray = splittedData;
-        }
-    });
 }
 
 function restartGame() {
@@ -221,8 +205,7 @@ function initializeBoard(boardData) {
         if (canSelectButtons) {
             var currentWord = $("#wordDisplay").data("wordData").toLowerCase();
 
-            if (isValidWord(currentWord))
-                addPointsForWord(currentWord);
+            checkForValidWord(currentWord)
 
             resetButtons();
             return;
@@ -251,24 +234,23 @@ function initializePopups() {
     });
 }
 
-function isValidWord(wordToValidate) {
+function checkForValidWord(wordToValidate) {
     console.log("Checking for word " + wordToValidate);
-    var savedWordsArray = wordListDOM.data("savedWords");
 
-    //Only allow words > 3
-    if (wordToValidate.length < 3)
-        return false;
+    var boardID = boggleAreaDOM.data("boardID");
 
-    if ($.inArray(wordToValidate, savedWordsArray) > -1) {
-        var nicerWord = wordToValidate.toUpperCase();
-        Materialize.toast("'" + nicerWord + "' is already used!", 3000, 'rounded');
-        return false;
-    }
+    $.ajax({
+        url: "http://internettoepassingen.jorislops.nl/api/boggle/isValidWord",
+        type: 'POST',
+        dataType: "jsonp",
+        data: { boggleBoxId: boardID, word: wordToValidate }
+    }).done(function (data) {
+        if(data == true)
+            addPointsForWord(wordToValidate);
 
-    if ($.inArray(wordToValidate, wordsArray) > -1)
-        return true;
-
-    return false;
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        console.log("Error: " + textStatus + "\t" + errorThrown.toString());
+    });
 }
 
 function addPointsForWord(wordToAnalyze) {
