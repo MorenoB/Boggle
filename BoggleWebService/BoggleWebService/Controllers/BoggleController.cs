@@ -21,8 +21,6 @@ namespace BoggleWebService.Controllers
             newBox.BoggleBoxID = Guid.NewGuid();
             newBox.Dies = randomDices();
 
-            //byte[] guidArray = newBox.BoggleBoxID.ToByteArray();
-
             registeredBoggleBoxes.Add(newBox);
             return newBox;
         }
@@ -38,6 +36,39 @@ namespace BoggleWebService.Controllers
 
             //If unable to find box, generate a new one.
             return GetBoggleBox();
+        }
+
+        [HttpGet]
+        [Route("api/boggle/scoreWord")]
+        public int ScoreWord(string word)
+        {
+            int amountOfPoints = 0;
+
+            switch (word.Length)
+            {
+                case 3:
+                case 4:
+                    amountOfPoints = 1;
+                    break;
+
+                case 5:
+                    amountOfPoints = 2;
+                    break;
+
+                case 6:
+                    amountOfPoints = 3;
+                    break;
+
+                case 7:
+                    amountOfPoints = 5;
+                    break;
+
+                default:
+                    amountOfPoints = 11;
+                    break;
+            }
+
+            return amountOfPoints;
         }
 
 
