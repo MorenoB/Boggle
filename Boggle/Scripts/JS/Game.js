@@ -69,36 +69,36 @@ function connectToWebService()
 }
 
 function selectedButtonIsInRange(selectedButtonId) {
-    if (selectedButtonId == lastSelectedButtonId || lastSelectedButtonId == -1)
+    if (selectedButtonId === lastSelectedButtonId || lastSelectedButtonId === -1)
         return true;
 
     //Left
-    if (selectedButtonId == lastSelectedButtonId - 1)
+    if (selectedButtonId === lastSelectedButtonId - 1)
         return true;
     //Right
-    if (selectedButtonId == lastSelectedButtonId + 1)
+    if (selectedButtonId === lastSelectedButtonId + 1)
         return true;
     //Up
-    if (selectedButtonId == lastSelectedButtonId - 4)
+    if (selectedButtonId === lastSelectedButtonId - 4)
         return true;
     //Down
-    if (selectedButtonId == lastSelectedButtonId + 4)
+    if (selectedButtonId === lastSelectedButtonId + 4)
         return true;
 
     //Diagonal bottom right
-    if (selectedButtonId == lastSelectedButtonId + 5)
+    if (selectedButtonId === lastSelectedButtonId + 5)
         return true;
 
     //Diagonal Upper left
-    if (selectedButtonId == lastSelectedButtonId - 5)
+    if (selectedButtonId === lastSelectedButtonId - 5)
         return true;
 
     //Diagonal bottom left
-    if (selectedButtonId == lastSelectedButtonId + 3)
+    if (selectedButtonId === lastSelectedButtonId + 3)
         return true;
 
     //Diagonal Upper right
-    if (selectedButtonId == lastSelectedButtonId - 3)
+    if (selectedButtonId === lastSelectedButtonId - 3)
         return true;
 
     return false;
@@ -205,7 +205,7 @@ function initializeBoard(boardData) {
         if (canSelectButtons) {
             var currentWord = $("#wordDisplay").data("wordData").toLowerCase();
 
-            checkForValidWord(currentWord)
+            checkForValidWord(currentWord);
 
             resetButtons();
             return;
@@ -245,7 +245,7 @@ function checkForValidWord(wordToValidate) {
         dataType: "jsonp",
         data: { boggleBoxId: boardID, word: wordToValidate }
     }).done(function (data) {
-        if(data == true)
+        if(data === true)
             addPointsForWord(wordToValidate);
 
     }).fail(function (jqXHR, textStatus, errorThrown) {
@@ -362,7 +362,7 @@ function initializeDefaults() {
 
     pointsDOM.data("totalPoints", 0);
 
-    pointsDOM.text("Points : 0")
+    pointsDOM.text("Points : 0");
 
     setProgressbarValue(0);
 }
