@@ -138,7 +138,6 @@
     <Content Include="content\materialize\fonts\roboto\Roboto-Bold.eot" />
     <Content Include="Scripts\Libraries\jquery-ui-1.12.1.min.js" />
     <Content Include="Scripts\Libraries\jquery-ui.min.js" />
-    <Content Include="words.txt" />
     <None Include="Scripts\Libraries\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\JS\Game.js" />
     <Content Include="Scripts\Libraries\jquery-3.1.1.js" />
