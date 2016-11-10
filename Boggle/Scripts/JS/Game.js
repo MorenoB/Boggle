@@ -3,6 +3,7 @@ var wordsArray;
 
 var wordListDOM = $("#wordList");
 var pointsDOM = $("#points");
+var boggleAreaDOM = $("#boggleArea");
 
 var lastSelectedButtonId = -1;
 
@@ -50,7 +51,8 @@ function onButtonClicked(buttonObj) {
     console.log(id + " has letter " + text);
 }
 
-function connectToWebService() {
+function connectToWebService()
+{
 
     //Retrieving bottle box data.
     $.ajax({
@@ -121,7 +123,7 @@ function initializeWords() {
 function restartGame() {
     resetButtons();
 
-    $("#boggleArea").off();
+    boggleAreaDOM.off();
 
     wordListDOM.empty();
 
@@ -173,9 +175,9 @@ function initializeBoard(boardData) {
     var columns = 4;
     var buttonIndex = 0;
 
-    $("#boggleArea").empty();
+    boggleAreaDOM.empty();
 
-    $("#boggleArea").data("boardID", boardData.boggleBoxID);
+    boggleAreaDOM.data("boardID", boardData.boggleBoxID);
 
     for (var i = 0; i < rows; i++) {
 
@@ -203,18 +205,18 @@ function initializeBoard(boardData) {
             buttonIndex++;
         }
 
-        $("#boggleArea").append($row);
+        boggleAreaDOM.append($row);
 
 
     }
 
-    $("#boggleArea").on('mouseover', '#letterButton', function () {
+    boggleAreaDOM.on('mouseover', '#letterButton', function () {
 
         var obj = $(this);
         onButtonClicked(obj);
     });
 
-    $("#boggleArea").on('click', '#letterButton', function () {
+    boggleAreaDOM.on('click', '#letterButton', function () {
 
         if (canSelectButtons) {
             var currentWord = $("#wordDisplay").data("wordData").toLowerCase();
