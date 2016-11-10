@@ -312,6 +312,8 @@ function timeIsUp()
 {
     $('#timeLeft').text("Done!");
 
+    $('#yourPoints').text("Your points : " + pointsDOM.data("totalPoints"));
+
     $('#matchComplete').openModal();
 }
 
