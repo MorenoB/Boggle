@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html>
+﻿<!DOCTYPE html>
+<html ng-app="boggle">
   <head>
     <title>Angular QuickStart</title>
     <meta charset="UTF-8">
@@ -12,14 +12,24 @@
     <script src="node_modules/zone.js/dist/zone.js"></script>
     <script src="node_modules/reflect-metadata/Reflect.js"></script>
     <script src="node_modules/systemjs/dist/system.src.js"></script>
-
     <script src="systemjs.config.js"></script>
     <script>
       System.import('app').catch(function(err){ console.error(err); });
     </script>
+
+    <script src="App.js"></script>
   </head>
 
   <body>
     <my-app>Loading...</my-app>
+
+      <div id="boggleArea">
+          <button type="button" id="btn1" ng-click="addButton()">
+              Click Me
+          </button>
+
+            <p>Name: <input type="text" ng-model="name"></p>
+            <p>{{name}}</p>
+      </div>
   </body>
 </html>
