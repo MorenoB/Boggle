@@ -1,9 +1,9 @@
-﻿using BoggleWebService.Models;
+﻿using BoggleWebService.App_Start;
+using BoggleWebService.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace BoggleWebService.Controllers
@@ -11,6 +11,14 @@ namespace BoggleWebService.Controllers
     public class BoggleController : ApiController
     {
         private Random randomObj = new Random();
+
+        private WordDictionary WordDictionary
+        {
+            get
+            {
+                return WordDictionary.Instance;
+            }
+        }
         private List<BoggleBox> registeredBoggleBoxes = new List<BoggleBox>();
 
         [HttpGet]
@@ -36,6 +44,23 @@ namespace BoggleWebService.Controllers
 
             //If unable to find box, generate a new one.
             return GetBoggleBox();
+        }
+
+        [HttpGet]
+        [Route("api/boggle/isValidWord")]
+        public bool IsValidWord(string boggleBoxId, string word)
+        {
+            BoggleBox foundBox = registeredBoggleBoxes.Find(x => x.BoggleBoxID.ToString() == boggleBoxId);
+
+            if (foundBox == null)
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            
+            if(WordDictionary.WordList.Contains(word.ToLower()))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         [HttpGet]
