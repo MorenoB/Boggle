@@ -120,8 +120,8 @@
   <ItemGroup>
     <Compile Include="App_Start\FormatterConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Data\DataHandler.cs" />
     <Compile Include="Data\Singleton.cs" />
-    <Compile Include="Data\WordDictionary.cs" />
     <Compile Include="Controllers\BoggleController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
