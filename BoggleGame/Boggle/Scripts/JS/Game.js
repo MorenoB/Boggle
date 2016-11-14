@@ -45,7 +45,7 @@ function onButtonClicked(buttonObj) {
     //Update visual word & store the letter.
     updateWordHeader(text);
 
-    console.log(id + " has letter " + text);
+    //console.log(id + " has letter " + text);
 }
 
 function getAndPopulateBoardData()
@@ -240,7 +240,7 @@ function checkForValidWord(wordToValidate) {
     var boardID = boggleAreaDOM.data("boardID");
 
     $.ajax({
-        url: "http://internettoepassingen.jorislops.nl/api/boggle/isValidWord",
+        url: "http://localhost:52213/api/boggle/isValidWord",
         type: 'POST',
         dataType: "jsonp",
         data: { boggleBoxId: boardID, word: wordToValidate }
