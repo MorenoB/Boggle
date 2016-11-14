@@ -12,14 +12,21 @@ namespace BoggleWebService.Controllers
     {
         private Random randomObj = new Random();
 
-        private WordDictionary WordDictionary
+        private List<string> WordList
         {
             get
             {
-                return WordDictionary.Instance;
+                return DataHandler.Instance.WordList;
             }
         }
-        private List<BoggleBox> registeredBoggleBoxes = new List<BoggleBox>();
+
+        private List<BoggleBox> RegisteredBoggleBoxes
+        {
+            get
+            {
+                return DataHandler.Instance.RegisteredBoggleBoxes;
+            }
+        }
 
         [HttpGet]
         [Route("api/boggle/getBoggleBox")]
@@ -29,7 +36,8 @@ namespace BoggleWebService.Controllers
             newBox.BoggleBoxID = Guid.NewGuid();
             newBox.Dies = randomDices();
 
-            registeredBoggleBoxes.Add(newBox);
+            RegisteredBoggleBoxes.Add(newBox);
+
             return newBox;
         }
 
@@ -37,25 +45,24 @@ namespace BoggleWebService.Controllers
         [Route("api/boggle/getBoggleBox")]
         public BoggleBox GetBoggleBox(string boggleBoxId)
         {
-            BoggleBox foundBox = registeredBoggleBoxes.Find(x => x.BoggleBoxID.ToString() == boggleBoxId);
+            BoggleBox foundBox = RegisteredBoggleBoxes.Find(x => x.BoggleBoxID.ToString() == boggleBoxId);
 
-            if (foundBox != null)
-                return foundBox;
+            if (foundBox == null)
+                throw new HttpResponseException(HttpStatusCode.NotFound);
 
-            //If unable to find box, generate a new one.
-            return GetBoggleBox();
+            return foundBox;
         }
 
         [HttpGet]
         [Route("api/boggle/isValidWord")]
         public bool IsValidWord(string boggleBoxId, string word)
         {
-            BoggleBox foundBox = registeredBoggleBoxes.Find(x => x.BoggleBoxID.ToString() == boggleBoxId);
+            BoggleBox foundBox = RegisteredBoggleBoxes.Find(x => x.BoggleBoxID.ToString() == boggleBoxId);
 
             if (foundBox == null)
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             
-            if(WordDictionary.WordList.Contains(word.ToLower()))
+            if(WordList.Contains(word.ToLower()))
             {
                 return true;
             }
