@@ -3,6 +3,7 @@
 var wordListDOM = $("#wordList");
 var pointsDOM = $("#points");
 var boggleAreaDOM = $("#boggleArea");
+var wordHeaderDOM = $("#wordDisplay");
 
 var lastSelectedButtonId = -1;
 
@@ -45,7 +46,7 @@ function onButtonClicked(buttonObj) {
     //Update visual word & store the letter.
     updateWordHeader(text);
 
-    console.log(id + " has letter " + text);
+    //console.log(id + " has letter " + text);
 }
 
 function getAndPopulateBoardData()
@@ -53,7 +54,7 @@ function getAndPopulateBoardData()
 
     //Retrieving boggle box data.
     $.ajax({
-        url: "http://internettoepassingen.jorislops.nl/api/boggle/getbogglebox",
+        url: "http://localhost:52213/api/boggle/getBoggleBox",
         type: 'GET',
         contentType: "application/json",
         dataType: 'jsonp'
@@ -117,15 +118,15 @@ function restartGame() {
 }
 
 function updateWordHeader(addedLetter) {
-    var wordHeader = $("#wordDisplay");
-    var curWord = wordHeader.data("wordData");
+    
+    var curWord = wordHeaderDOM.data("wordData");
     var newWord = curWord + addedLetter;
-    wordHeader.data("wordData", newWord);
+    wordHeaderDOM.data("wordData", newWord);
 
     if (newWord.length < 1)
         newWord = "Boggle";
 
-    wordHeader.text(newWord);
+    wordHeaderDOM.text(newWord);
 }
 
 function resetButtons() {
@@ -142,7 +143,7 @@ function resetButtons() {
         }
     });
 
-    $("#wordDisplay").data("wordData", "");
+    wordHeaderDOM.data("wordData", "");
     updateWordHeader("");
 
     canSelectButtons = false;
@@ -203,7 +204,7 @@ function initializeBoard(boardData) {
     boggleAreaDOM.on('click', '#letterButton', function () {
 
         if (canSelectButtons) {
-            var currentWord = $("#wordDisplay").data("wordData").toLowerCase();
+            var currentWord = wordHeaderDOM.data("wordData").toLowerCase();
 
             checkForValidWord(currentWord);
 
@@ -240,7 +241,7 @@ function checkForValidWord(wordToValidate) {
     var boardID = boggleAreaDOM.data("boardID");
 
     $.ajax({
-        url: "http://internettoepassingen.jorislops.nl/api/boggle/isValidWord",
+        url: "http://localhost:52213/api/boggle/isValidWord",
         type: 'POST',
         dataType: "jsonp",
         data: { boggleBoxId: boardID, word: wordToValidate }
@@ -329,6 +330,7 @@ function timeIsUp() {
 function startTimerUpdate() {
     var start = new Date;
     var totalSeconds = 180;
+    var timeLeftDOM = $('#timeLeft');
 
     var timerInterval = setInterval(function () {
         var secondsPassed = (new Date - start) / 1000;
@@ -351,12 +353,12 @@ function startTimerUpdate() {
 
         var suffix = secondsLeft < 2 ? "second" : "seconds";
 
-        $('#timeLeft').text("Only " + secondsLeft + " " + suffix + " left!");
+        timeLeftDOM.text("Only " + secondsLeft + " " + suffix + " left!");
     }, 250);
 }
 
 function initializeDefaults() {
-    $("#wordDisplay").data("wordData", "");
+    wordHeaderDOM.data("wordData", "");
 
     wordListDOM.data("savedWords", []);
 
