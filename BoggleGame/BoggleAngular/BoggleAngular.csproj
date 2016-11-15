@@ -108,11 +108,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\app.module.js" />
-    <Content Include="app\controller.js" />
     <Content Include="app\main.js" />
     <Content Include="Game.html" />
     <Content Include="Scripts\angular-mocks.js" />
-    <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\lodash.core.min.js" />
     <Content Include="Scripts\lodash.min.js" />

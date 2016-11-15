@@ -55,7 +55,7 @@
             var element = angular.element($event.currentTarget);
 
             console.log("Clicked id: " + element.data("Id") + " with letter " + element.data("Letter"));
-        }
+        };
 
         function activate()
         {
