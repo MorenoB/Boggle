@@ -33,7 +33,7 @@
 
                 for (var i = 0; i < columns; i++) {
                     id++;
-                    var btnhtml = '<button type="button" ng-click="addButton($event)">Letter</button>';
+                    var btnhtml = '<button class="letterButton" type="button" ng-click="onSelectButton($event)">Letter</button>';
                     var temp = $compile(btnhtml)($scope);
 
                     temp.data("Id", id);
@@ -52,11 +52,32 @@
 
         }
 
-        $scope.addButton = function ($event) {
+        $scope.onSelectButton = function ($event) {
             var element = angular.element($event.currentTarget);
+            var id = element.data("Id");
+            var letter = element.data("Letter");
+            var isSelected = element.data("IsSelected");
 
-            console.log("Clicked id: " + element.data("Id") + " with letter " + element.data("Letter"));
+            if(isSelected)
+            {
+                log("Already selected letter " + letter + " ( id = " + id + " )")
+                return;
+            }
+
+            element.data("IsSelected", true);
+            log("Selected letter " + letter + " ( id = " + id + " )");
+
         };
+
+        function resetLetters()
+        {
+           /* var buttonDOMElements = document.getElementsByClassName("letterButton");
+
+            for (var DOMElement in buttonDOMElements) {
+                var angularButtonElement = angular.element(DOMElement);
+                angularButtonElement.data("IsSelected", false);
+            }*/
+        }
 
         function log(loggingData)
         {
