@@ -10,8 +10,11 @@
     function main($scope, $compile) {
         /* jshint validthis:true */
         var vm = this;
-        vm.boggleWord = '';
         var debugIsEnabled = true;
+        var lastSelectedButtonId = -1;
+
+        vm.boggleWord = '';
+
 
         activate();
 
@@ -64,8 +67,20 @@
                 return;
             }
 
+            if (!selectedButtonIsInRange(id))
+            {
+                log("Button is out of range. " + letter + " ( id = " + id + " )");
+                return;
+            }
+
+
+            lastSelectedButtonId = id;
+
             element.data("IsSelected", true);
             log("Selected letter " + letter + " ( id = " + id + " )");
+            
+
+
 
             vm.boggleWord += letter;
         };
@@ -78,6 +93,42 @@
                 var angularButtonElement = angular.element(DOMElement);
                 angularButtonElement.data("IsSelected", false);
             }*/
+        }
+
+        function selectedButtonIsInRange(selectedButtonId) {
+            if (selectedButtonId === lastSelectedButtonId || lastSelectedButtonId === -1)
+                return true;
+
+            //Left
+            if (selectedButtonId === lastSelectedButtonId - 1)
+                return true;
+            //Right
+            if (selectedButtonId === lastSelectedButtonId + 1)
+                return true;
+            //Up
+            if (selectedButtonId === lastSelectedButtonId - 4)
+                return true;
+            //Down
+            if (selectedButtonId === lastSelectedButtonId + 4)
+                return true;
+
+            //Diagonal bottom right
+            if (selectedButtonId === lastSelectedButtonId + 5)
+                return true;
+
+            //Diagonal Upper left
+            if (selectedButtonId === lastSelectedButtonId - 5)
+                return true;
+
+            //Diagonal bottom left
+            if (selectedButtonId === lastSelectedButtonId + 3)
+                return true;
+
+            //Diagonal Upper right
+            if (selectedButtonId === lastSelectedButtonId - 3)
+                return true;
+
+            return false;
         }
 
         function log(loggingData)
