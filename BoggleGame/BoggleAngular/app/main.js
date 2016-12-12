@@ -11,6 +11,7 @@
         /* jshint validthis:true */
         var vm = this;
         vm.boggleWord = 'test';
+        var debugIsEnabled = true;
 
         activate();
 
@@ -56,6 +57,14 @@
 
             console.log("Clicked id: " + element.data("Id") + " with letter " + element.data("Letter"));
         };
+
+        function log(loggingData)
+        {
+            if (!debugIsEnabled)
+                return;
+
+            console.log(loggingData);
+        }
 
         function activate()
         {
