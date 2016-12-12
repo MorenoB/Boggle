@@ -11,9 +11,7 @@
     <script src="app/controller.js"></script>
 </head>
 <body ng-controller="Main as vm">
-    <input type="text" ng-model="vm.boggleWord" placeholder="Enter a word" />
-
-    <p>Your current word at boggle is {{vm.boggleWord}}!</p>
+    <p>{{vm.boggleWord}}</p>
 
     <ul id="boggleBoxArea">
     </ul>

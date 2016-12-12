@@ -10,7 +10,7 @@
     function main($scope, $compile) {
         /* jshint validthis:true */
         var vm = this;
-        vm.boggleWord = 'test';
+        vm.boggleWord = '';
         var debugIsEnabled = true;
 
         activate();
@@ -67,6 +67,7 @@
             element.data("IsSelected", true);
             log("Selected letter " + letter + " ( id = " + id + " )");
 
+            vm.boggleWord += letter;
         };
 
         function resetLetters()
