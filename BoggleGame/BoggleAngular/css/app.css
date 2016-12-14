@@ -1,0 +1,20 @@
+
+#word-panel .panel-body { min-height: 32em;}
+
+#board { height: 40vw; width:40vw; }
+#board table { 
+  height:50%; 
+  width:50%; 
+  border-width:4px; 
+}
+#board td { vertical-align:middle; font-size:3em; border-width:2px; }
+#board td.clicked { background-color:blue;}
+#board td.last-clicked { background-color:darkBlue; color:white;}
+
+#current-word { min-height:2em;}
+
+.progress-bar {
+  -webkit-transition-duration: 0s;
+       -o-transition-duration: 0s;
+          transition-duration: 0s;
+}
